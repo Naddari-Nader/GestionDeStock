@@ -11,6 +11,10 @@ public class Provider implements Serializable{
 	public String getName() {
 		return name;
 	}
+	@Override
+	public String toString() {
+		return "Provider [name=" + name + ", adress=" + adress + ", email=" + email + "]";
+	}
 	public Provider(String name, String adress, String email) {
 		super();
 		this.name = name;

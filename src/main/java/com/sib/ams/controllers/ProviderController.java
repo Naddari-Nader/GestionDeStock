@@ -1,13 +1,15 @@
 package com.sib.ams.controllers;
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sib.ams.entities.Provider;
@@ -17,7 +19,14 @@ import com.sib.ams.entities.Provider;
 @Controller
 public class ProviderController {
 
-	
+ static	ArrayList<Provider> listeP=new ArrayList<>();
+ static {
+	 
+	 listeP.add(new Provider("name", "adres", "email")) ;
+	 listeP.add(new Provider("name2", "adres2", "email2")) ;
+	 listeP.add(new Provider("name3", "adres3", "email3")) ;
+	 
+ }
 	
 	
 	@RequestMapping("/list")
@@ -32,16 +41,8 @@ public class ProviderController {
 		array.add("MAC") ;
 		array.add("ASUS") ;
       m.addAttribute("p1", array) ;		
-      
-     ArrayList< Provider>  listes= new ArrayList<>()  ;
      
-     listes.add(new Provider("name", "adres", "email")) ;
-     listes.add(new Provider("name2", "adres2", "email2")) ;
-     listes.add(new Provider("name3", "adres3", "email3")) ;
-     
-    // m.addAllAttributes("listes",listes) ;
-     
-     m.addAttribute("listes",listes) ;
+     m.addAttribute("listes",listeP) ;
      
      
 		
@@ -50,15 +51,28 @@ public class ProviderController {
 	}
 	
 	@GetMapping("add")
-	public String addProviderGet() {
+	public String addProviderGet(Model m) {
+	System.out.println("kllllllllll");
+		
+		
+		
+		m.addAttribute("provider",new Provider()) ;
 		System.out.println("####entrerrr");
 		return "provider/AddProfile" ;
 	}
 	
 	@PostMapping("add")
-	@ResponseBody
-	public String addProviderPost() {
-		System.out.println("###Postr");
-		return "PageInsertion" ;
+   // @ResponseBody
+	/*public String addProviderPost(@RequestParam("pname")   String name ,
+		                      	  @RequestParam("paddress")   String address ,
+		                           @RequestParam("pemail")    String email) {*/
+	
+	public String addProviderPost( Provider prov ) {
+	
+		
+	    listeP.add(prov);	
+		//System.out.println("###Postr"+p.toString());
+		//return "PageInsertion" ;
+		return "redirect:list" ;
 	}
 }
